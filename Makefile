@@ -5,7 +5,7 @@ SRCDIR = source
 SOURCES = $(wildcard $(SRCDIR)/*.c)
 OBJECTS = $(SOURCES:.c=.o)
 
-LIBS = -lwebsockets
+LIBS = -lwebsockets -pthread
 
 pipes: $(OBJECTS)
 	$(CC) $(CFLAGS) $(OBJECTS) -o pipes $(LIBS)

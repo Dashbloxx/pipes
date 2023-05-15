@@ -1,58 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <libwebsockets.h>
+#include <pthread.h>
 
-static int callback_echo(struct lws *wsi, enum lws_callback_reasons reason, void *user, void *in, size_t len)
-{
-	switch (reason) {
-		case LWS_CALLBACK_ESTABLISHED:
-			printf("Connection established\n");
-			break;
-		case LWS_CALLBACK_RECEIVE:
-			printf("Received data: %.*s\n", (int)len, (char *)in);
-			lws_write(wsi, in, len, LWS_WRITE_TEXT);
-			break;
-		default:
-			break;
-	}
-	return 0;
-}
-
-static struct lws_protocols protocols[] = {
-	{
-		"echo-protocol",
-		callback_echo,
-		0,
-		1024,
-	},
-	{ NULL, NULL, 0, 0 }
-};
+#include "ws_server.h"
 
 int main(int argc, const char **argv)
 {
-	struct lws_context_creation_info info;
-	struct lws_context *context;
-	const char *address = "127.0.0.1";
-	int port = 9000;
+	pthread_t thread;
+	int rc;
 
-	memset(&info, 0, sizeof(info));
-	info.port = port;
-	info.iface = address;
-	info.protocols = protocols;
-
-	context = lws_create_context(&info);
-	if (!context) {
-		fprintf(stderr, "Failed to create WebSockets context\n");
-		return 1;
+	rc = pthread_create(&thread, NULL, ws_server, NULL);
+	if (rc) {
+		printf("ERROR; return code from pthread_create() is %d\n", rc);
+		exit(-1);
 	}
 
-	printf("WebSockets server started at ws://%s:%d\n", address, port);
+	// Perform some other tasks in the main thread while the WebSocket server runs in the background
+	// ...
 
-	while (1) {
-		lws_service(context, 50);
-	}
-
-	lws_context_destroy(context);
+	pthread_join(thread, NULL);  // Wait for the WebSocket server thread to complete
 	return 0;
 }
