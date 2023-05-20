@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS =
+CFLAGS = -g
 
 SRCDIR = source
 SOURCES = $(wildcard $(SRCDIR)/*.c)
@@ -12,3 +12,6 @@ pipes: $(OBJECTS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -rf pipes source/*.o
