@@ -1,3 +1,3 @@
 #pragma once
 
-void *ws_server(void *arg);
+void *wsserver(void *arg);

@@ -12,3 +12,6 @@ pipes: $(OBJECTS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -rf pipes source/*.o

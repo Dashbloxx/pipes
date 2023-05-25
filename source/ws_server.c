@@ -5,15 +5,16 @@
 #include <libwebsockets.h>
 
 #include "ws_server.h"
+#include "logger.h"
 
 static int callback_echo(struct lws *wsi, enum lws_callback_reasons reason, void *user, void *in, size_t len)
 {
 	switch (reason) {
 		case LWS_CALLBACK_ESTABLISHED:
-			printf("Connection established\n");
+			sendf(stdout, LOG_INFO, "Connection established\n");
 			break;
 		case LWS_CALLBACK_RECEIVE:
-			printf("Received data: %.*s\n", (int)len, (char *)in);
+			sendf(stdout, LOG_INFO, "Received data: %.*s\n", (int)len, (char *)in);
 			lws_write(wsi, in, len, LWS_WRITE_TEXT);
 			break;
 		default:
@@ -32,7 +33,7 @@ static struct lws_protocols protocols[] = {
 	{ NULL, NULL, 0, 0 }
 };
 
-void *ws_server(void *arg) {
+void *wsserver(void *arg) {
 	struct lws_context_creation_info info;
 	struct lws_context *context;
 	const char *address = "127.0.0.1";
@@ -45,11 +46,11 @@ void *ws_server(void *arg) {
 
 	context = lws_create_context(&info);
 	if (!context) {
-		fprintf(stderr, "Failed to create WebSockets context\n");
+		sendf(stderr, LOG_ERROR, "Failed to create WebSockets context\n");
 		return NULL;
 	}
 
-	printf("WebSocket server started at ws://%s:%d\n", address, port);
+	sendf(stdout, LOG_INFO, "WebSocket server started at ws://%s:%d/\n", address, port);
 
 	while (1) {
 		lws_service(context, 50);

@@ -1,0 +1,7 @@
+{
+    // Other settings...
+
+    "files.exclude": {
+        "**/*.o": true
+    }
+}
