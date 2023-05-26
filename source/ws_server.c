@@ -33,7 +33,7 @@ static struct lws_protocols protocols[] = {
 	{ NULL, NULL, 0, 0 }
 };
 
-void *wsserver(void *arg) {
+int wsserver() {
 	struct lws_context_creation_info info;
 	struct lws_context *context;
 	const char *address = "127.0.0.1";
@@ -47,7 +47,7 @@ void *wsserver(void *arg) {
 	context = lws_create_context(&info);
 	if (!context) {
 		sendf(stderr, LOG_ERROR, "Failed to create WebSockets context\n");
-		return NULL;
+		return -1;
 	}
 
 	sendf(stdout, LOG_INFO, "WebSocket server started at ws://%s:%d/\n", address, port);
@@ -57,5 +57,5 @@ void *wsserver(void *arg) {
 	}
 
 	lws_context_destroy(context);
-	return NULL;
+	return 0;
 }

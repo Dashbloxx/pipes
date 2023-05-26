@@ -14,7 +14,7 @@
 #define MAX_FILE_PATH_SIZE 256
 #define MAX_ABSOLUTE_PATH_SIZE 512
 
-void *wserver(void *arg) {
+int wserver() {
 	int server_socket, client_socket;
 	struct sockaddr_in server_address, client_address;
 	socklen_t client_address_len;
