@@ -6,8 +6,7 @@
 #include "ws_server.h"
 #include "http_server.h"
 #include "logger.h"
-
-#define VERSION "0.0.1-dev"
+#include "env.h"
 
 int main(int argc, const char **argv)
 {
