@@ -13,6 +13,10 @@ Then, you'll need to install the libraries:
 ```
 apt install libjansson-dev libwebsockets-dev
 ```
+You'll also need to install the MariaDB driver:
+```
+apt install libmariadb-dev
+```
 ### Building
 After all of this, you can build the server (backend):
 ```
