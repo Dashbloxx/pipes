@@ -1,11 +1,11 @@
 CC = gcc
-CFLAGS = -I/usr/include/mariadb
+CFLAGS = -g -I/usr/include/mariadb -I/usr/local/include/wsserver
 
 SRCDIR = source
 SOURCES = $(wildcard $(SRCDIR)/*.c)
 OBJECTS = $(SOURCES:.c=.o)
 
-LIBS = -lwebsockets -ljansson -pthread -lmysqlclient -lssl -lcrypto
+LIBS = -L/usr/local/lib -lcjson -lws -pthread -lmysqlclient -lssl -lcrypto
 
 pipes: $(OBJECTS)
 	$(CC) $(CFLAGS) $(OBJECTS) -o pipes $(LIBS)
