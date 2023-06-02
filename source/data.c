@@ -35,7 +35,8 @@ void initialize_data() {
 
 /*  We use SHA256 for `password_hash`...
     If we get a return code of -2, then it means that the account already exists...
-    If it's -1 however, it just means that the SQL execution failed somehow... */
+    If it's -1 however, it just means that the SQL execution failed somehow...
+    Return code of 0 means that everything went okay... */
 int create_account(const char *username, const char *password_hash, char *token_buffer) {
     char *query = malloc(1024);
     char *token = malloc(65); /* It's 65 bytes instead of 64 since we also want to add in a null terminator... */
